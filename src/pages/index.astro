@@ -1,0 +1,558 @@
+---
+import Base from '../layouts/Base.astro';
+import Icono from '../components/Icono.astro';
+import { servicios, ordenPortada, porSlug } from '../data/servicios';
+import { clientes, contacto, url } from '../data/sitio';
+
+const grilla = ordenPortada.map(porSlug);
+const extras = [
+  'Cercos eléctricos',
+  'Barreras de acceso',
+  'Alarmas',
+  'Mantenciones industriales',
+  'Hidropack',
+  'Paneles solares',
+  'Iluminación LED',
+  'Instrumentación y automatización',
+];
+---
+<Base
+  titulo="Autocontrol Chile — Instalaciones de seguridad en Arica"
+  descripcion="Cámaras de seguridad, cercos y portones eléctricos, red de incendios, aire acondicionado y cortinas metálicas en Arica. Instaladores certificados SEC."
+>
+  <!-- PORTADA (siempre oscura: va sobre la foto) -->
+  <section class="hero">
+    <img class="hero-bg" src={url('img/cerco-electrico.jpg')} alt="" aria-hidden="true" fetchpriority="high" />
+    <div class="hero-velo" aria-hidden="true"></div>
+    <div class="wrap hero-in">
+      <span class="sello"><span class="punto"></span>Arica, Chile · Instaladores certificados SEC</span>
+      <h1>Instalaciones de seguridad en Arica</h1>
+      <p class="hero-p">
+        La seguridad es una de las consideraciones más importantes al comprar cualquier equipo, ya sean cámaras, una cerca
+        eléctrica o puertas eléctricas. Con nosotros, su inversión en equipos de seguridad dará sus frutos y lo mantendrá
+        seguro en su hogar u oficina en los próximos años.
+      </p>
+      <div class="botones">
+        <a class="btn btn-primary" href="#servicios">Ver servicios <Icono nombre="flecha" size={18} stroke={2} /></a>
+        <a class="btn btn-ghost-dark" href="#contacto">Solicitar cotización</a>
+      </div>
+      <dl class="datos">
+        <div><dt>24/7</dt><dd>Sus bienes protegidos todo el día</dd></div>
+        <div><dt>SEC</dt><dd>Instalaciones eléctricas certificadas</dd></div>
+        <div><dt>Hogar · Empresa</dt><dd>Proyectos residenciales e industriales</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- DESTACADOS -->
+  <section class="wrap bloque destacados">
+    <div class="section-head">
+      <span class="kicker">Lo que hacemos</span>
+      <h2 class="h2">Seguridad, electricidad y automatización en un solo equipo</h2>
+    </div>
+    <div class="grid">
+      <article class="card foto-card">
+        <img src={url('img/camara-muro.jpg')} alt="Cámara de seguridad instalada en muro con letrero de recinto protegido" loading="lazy" style="object-position: 50% 30%" />
+        <div class="foto-card-in">
+          <h3>Instalación de cámaras de seguridad</h3>
+          <p>
+            Cámaras de seguridad, cercas eléctricas, puertas eléctricas y más pueden ser instaladas rápida y fácilmente por
+            nuestro equipo de expertos, con la tranquilidad de saber que sus pertenencias están seguras las 24 horas del
+            día, los 7 días de la semana.
+          </p>
+          <a href={url('servicios/camaras-de-seguridad/')}>Ver más →</a>
+        </div>
+      </article>
+      <article class="card foto-card">
+        <img src={url('img/tablero-electrico.jpg')} alt="Técnico revisando un tablero eléctrico con un computador portátil" loading="lazy" style="object-position: 60% 50%" />
+        <div class="foto-card-in">
+          <h3>Instalaciones eléctricas certificadas</h3>
+          <p>
+            Los sistemas eléctricos no son necesariamente simples y pueden causar problemas si no se instalan correctamente
+            desde el principio. Nuestro equipo es experto en instalaciones eléctricas: cuente con un servicio confiable cada
+            vez que lo necesite.
+          </p>
+          <a href="#servicios">Ver servicios →</a>
+        </div>
+      </article>
+      <article class="card foto-card">
+        <img src={url('img/porton-electrico.webp')} alt="Portón eléctrico instalado frente a una casa" loading="lazy" />
+        <div class="foto-card-in">
+          <h3>Portones eléctricos</h3>
+          <p>
+            Una puerta fácil de abrir con solo presionar un botón y lo suficientemente segura para disuadir a los ladrones. Le
+            ayudamos a diseñar el portón perfecto, encontrar las piezas adecuadas y dejarlo todo funcionando antes de que se
+            dé cuenta.
+          </p>
+          <a href={url('servicios/portones-electricos/')}>Ver más →</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section id="servicios" class="wrap bloque">
+    <div class="fila-head">
+      <div class="section-head">
+        <span class="kicker">Nuestros servicios</span>
+        <h2 class="h2">Instalación y mantención de equipos eléctricos de seguridad</h2>
+      </div>
+      <a class="btn btn-ghost" href="#contacto">Cotizar un servicio</a>
+    </div>
+    <div class="grid servicios">
+      {grilla.map((s) => (
+        <a class="card lift servicio" href={url(`servicios/${s.slug}/`)}>
+          <span class="icon-box"><Icono nombre={s.icono} size={26} /></span>
+          <h3>{s.tarjeta.titulo}</h3>
+          <p>{s.tarjeta.texto}</p>
+          <span class="mas">Ver más →</span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- NOSOTROS -->
+  <section id="nosotros" class="franja">
+    <div class="wrap bloque nosotros">
+      <div class="nos-foto">
+        <img src={url('img/cerco-electrico.jpg')} alt="Cerco eléctrico instalado sobre un muro en Arica" loading="lazy" />
+        <div class="flotante">
+          <span>Calidad profesional</span>
+          <strong>Garantía técnica en cada trabajo</strong>
+        </div>
+      </div>
+      <div class="nos-texto">
+        <span class="kicker">Nosotros</span>
+        <h2 class="h2">¿Qué es Autocontrol Chile?</h2>
+        <p class="lead">
+          Somos una empresa dedicada a instalaciones eléctricas certificadas (SEC) y perimetrales. Estamos ubicados en la
+          ciudad de Arica, ofreciendo la mejor alternativa en diseño y soluciones integrales, y garantizamos técnicamente
+          nuestros servicios.
+        </p>
+        <p class="lead">
+          Contamos con un equipo de profesionales de probada experiencia en cada una de sus áreas y con la mejor
+          infraestructura técnica, lo que nos permite cumplir con las expectativas incluso de los clientes más exigentes.
+        </p>
+        <div class="chips">
+          {extras.map((e) => <span class="chip">{e}</span>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLIENTES -->
+  <section id="clientes" class="wrap bloque clientes">
+    <div class="section-head centro">
+      <span class="kicker">Nuestros clientes</span>
+      <h2 class="h2">¿Por qué nos prefieren?</h2>
+      <p class="lead">
+        Un equipo de profesionales que ofrece un servicio oportuno y eficiente, con materiales y herramientas de óptima
+        calidad: climatización y ventilación, riego agrícola, energías renovables, automatización industrial, mantenciones y
+        más.
+      </p>
+    </div>
+    <ul class="logos">
+      {clientes.map((c) => (
+        <li><img src={url(`img/${c.img}`)} alt={c.nombre} loading="lazy" width="500" height="500" /></li>
+      ))}
+    </ul>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto" class="wrap contacto">
+    <div class="cta-band contacto-in">
+      <div class="contacto-info">
+        <span class="kicker claro">Contáctanos</span>
+        <h2 class="h2">Envíanos un mensaje</h2>
+        <dl class="datos-contacto">
+          <div><dt>Dirección</dt><dd>{contacto.direccion}<br />{contacto.ciudad}</dd></div>
+          <div>
+            <dt>Horarios</dt>
+            <dd>{contacto.horarios.map((h) => <>{h.dias}: {h.horas}<br /></>)}</dd>
+          </div>
+          <div><dt>E-mail</dt><dd><a href={`mailto:${contacto.email}`}>{contacto.email}</a></dd></div>
+          <div><dt>Teléfono / WhatsApp</dt><dd><a href={`tel:${contacto.telefonoLink}`}>{contacto.telefono}</a></dd></div>
+        </dl>
+      </div>
+
+      <form class="form" id="form-contacto" data-wa={contacto.whatsapp}>
+        <div class="dos">
+          <label>Tu nombre<input type="text" name="nombre" autocomplete="name" required /></label>
+          <label>Tu correo electrónico<input type="email" name="correo" autocomplete="email" /></label>
+        </div>
+        <label>Asunto<input type="text" name="asunto" required /></label>
+        <label>Tu mensaje (opcional)<textarea name="mensaje" rows="5"></textarea></label>
+        <button type="submit" class="btn btn-primary">Enviar por WhatsApp</button>
+        <p class="nota">Se abrirá WhatsApp con tu mensaje listo para enviar.</p>
+      </form>
+    </div>
+  </section>
+</Base>
+
+<script>
+  // GitHub Pages no tiene servidor: el formulario arma el mensaje y abre WhatsApp.
+  const form = document.getElementById('form-contacto') as HTMLFormElement | null;
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const d = new FormData(form);
+    const lineas = [
+      `Hola, soy ${d.get('nombre')}.`,
+      `Asunto: ${d.get('asunto')}`,
+      d.get('mensaje') ? String(d.get('mensaje')) : '',
+      d.get('correo') ? `Mi correo: ${d.get('correo')}` : '',
+    ].filter(Boolean);
+    const texto = encodeURIComponent(lineas.join('\n'));
+    window.open(`https://wa.me/${form.dataset.wa}?text=${texto}`, '_blank', 'noopener');
+  });
+</script>
+
+<style>
+  .bloque {
+    padding-block: 104px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  .hero {
+    position: relative;
+    overflow: hidden;
+    min-height: min(720px, 88vh);
+    display: flex;
+    align-items: center;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 40%;
+  }
+  .hero-velo {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(10, 18, 32, 0.96) 0%, rgba(10, 18, 32, 0.85) 45%, rgba(10, 18, 32, 0.35) 100%);
+  }
+  .hero-in {
+    position: relative;
+    width: 100%;
+    padding-block: 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .sello {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.06);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #c9d2e3;
+  }
+  .punto {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #3ddc97;
+  }
+  .hero h1 {
+    max-width: 820px;
+    font-weight: 700;
+    font-size: clamp(40px, 5.6vw, 76px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: #fff;
+  }
+  .hero-p {
+    max-width: 620px;
+    font-size: 18px;
+    line-height: 1.65;
+    color: #b7c2d6;
+  }
+  .botones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .datos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    margin: 28px 0 0;
+    padding-top: 28px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    max-width: 760px;
+  }
+  .datos div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .datos dt {
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .datos dd {
+    margin: 0;
+    font-size: 14px;
+    color: #a9b4c8;
+  }
+
+  .destacados {
+    padding-bottom: 40px;
+  }
+  .foto-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .foto-card img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+  }
+  .foto-card-in {
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    flex-grow: 1;
+  }
+  .foto-card h3 {
+    font-size: 24px;
+  }
+  .foto-card p,
+  .servicio p {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--muted);
+  }
+  .foto-card a {
+    margin-top: auto;
+    font-weight: 600;
+  }
+
+  .fila-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .servicios {
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  }
+  .servicio {
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .servicio h3 {
+    font-size: 21px;
+  }
+  .mas {
+    margin-top: auto;
+    font-weight: 600;
+    color: var(--kicker);
+  }
+
+  .franja {
+    background: var(--surface);
+    border-block: 1px solid var(--line);
+  }
+  .nosotros {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 64px;
+  }
+  .nos-foto,
+  .nos-texto {
+    flex: 1 1 440px;
+    min-width: 0;
+  }
+  .nos-foto {
+    position: relative;
+  }
+  .nos-foto img {
+    width: 100%;
+    height: clamp(320px, 40vw, 520px);
+    object-fit: cover;
+    border-radius: 24px;
+  }
+  .flotante {
+    position: absolute;
+    left: 24px;
+    bottom: 24px;
+    right: 24px;
+    max-width: max-content;
+    padding: 18px 22px;
+    border-radius: 16px;
+    background: rgba(10, 18, 32, 0.88);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .flotante span {
+    font-size: 13px;
+    color: #a9b4c8;
+  }
+  .flotante strong {
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .nos-texto {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .clientes {
+    align-items: center;
+    gap: 44px;
+  }
+  .centro {
+    align-items: center;
+    text-align: center;
+    max-width: 760px;
+  }
+  .logos {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 16px;
+  }
+  .logos li {
+    aspect-ratio: 1;
+    border-radius: 16px;
+    background: #fff;
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .logos img {
+    width: 86%;
+    height: 86%;
+    object-fit: contain;
+  }
+
+  .contacto {
+    padding-bottom: 104px;
+  }
+  .contacto-in {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px;
+  }
+  .contacto-info,
+  .form {
+    flex: 1 1 400px;
+    min-width: 0;
+  }
+  .contacto-info {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .claro {
+    color: #c3cdff;
+  }
+  .datos-contacto {
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  .datos-contacto dt {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #c3cdff;
+    margin-bottom: 6px;
+  }
+  .datos-contacto dd {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.55;
+    color: #fff;
+    overflow-wrap: anywhere;
+  }
+  .datos-contacto a {
+    color: #fff;
+  }
+  .form {
+    padding: 32px;
+    border-radius: 20px;
+    background: var(--form);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .dos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+  }
+  .form label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+  .form input,
+  .form textarea {
+    font: inherit;
+    font-size: 15px;
+    padding: 12px 14px;
+    min-height: 48px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: var(--field);
+    color: var(--head);
+  }
+  .form textarea {
+    resize: vertical;
+  }
+  .nota {
+    font-size: 13px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    .bloque {
+      padding-block: 72px;
+      gap: 36px;
+    }
+    .hero-in {
+      padding-block: 64px;
+    }
+    .form {
+      padding: 20px;
+    }
+  }
+</style>

@@ -1,0 +1,276 @@
+/* Tema: oscuro por defecto. El script en <head> pone data-theme antes de pintar. */
+:root,
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0a1220;
+  --surface: #0f1a2d;
+  --surface2: #142139;
+  --head: #ffffff;
+  --text: #e6ebf5;
+  --body: #b7c2d6;
+  --muted: #a9b4c8;
+  --line: rgba(255, 255, 255, 0.08);
+  --kicker: #8fa2ff;
+  --chip: rgba(255, 255, 255, 0.06);
+  --chiptext: #d5dcea;
+  --nav: rgba(10, 18, 32, 0.85);
+  --navlink: #c9d2e3;
+  --icon: rgba(61, 90, 254, 0.18);
+  --icontext: #9daeff;
+  --field: #0f1a2d;
+  --form: #0a1220;
+  --logo-filter: none;
+}
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f4f6fb;
+  --surface: #ffffff;
+  --surface2: #eef1ff;
+  --head: #0b1424;
+  --text: #1a2233;
+  --body: #3e4a60;
+  --muted: #4b5870;
+  --line: rgba(11, 20, 36, 0.1);
+  --kicker: #3049e0;
+  --chip: rgba(11, 20, 36, 0.05);
+  --chiptext: #2a3448;
+  --nav: rgba(255, 255, 255, 0.88);
+  --navlink: #334862;
+  --icon: rgba(61, 90, 254, 0.1);
+  --icontext: #3049e0;
+  --field: #f4f6fb;
+  --form: #ffffff;
+  /* El logo es blanco: en modo claro se pinta azul marino. */
+  --logo-filter: brightness(0) saturate(100%) invert(22%) sepia(18%) saturate(1200%) hue-rotate(176deg);
+}
+:root {
+  --accent: #3d5afe;
+  --wa: #25d366;
+  --radius: 20px;
+  --max: 1280px;
+  --font: 'Inter', system-ui, -apple-system, sans-serif;
+  --display: 'Space Grotesk', 'Inter', sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+}
+body {
+  margin: 0;
+  font-family: var(--font);
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+img {
+  max-width: 100%;
+  display: block;
+}
+a {
+  color: var(--kicker);
+  text-decoration: none;
+}
+a:hover {
+  opacity: 0.85;
+}
+h1,
+h2,
+h3 {
+  font-family: var(--display);
+  color: var(--head);
+  margin: 0;
+  letter-spacing: -0.015em;
+}
+p {
+  margin: 0;
+}
+:focus-visible {
+  outline: 2px solid #7a91ff;
+  outline-offset: 2px;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.wrap {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding-inline: 24px;
+}
+.logo {
+  filter: var(--logo-filter);
+}
+
+/* Textos de sección */
+.kicker {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--kicker);
+}
+.h2 {
+  font-size: clamp(32px, 3.6vw, 48px);
+  line-height: 1.08;
+}
+.lead {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--body);
+}
+.section-head {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 720px;
+}
+
+/* Botones */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 0 26px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 16px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-family: inherit;
+  transition: filter 0.15s ease, transform 0.15s ease;
+}
+.btn:hover {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+  opacity: 1;
+}
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+.btn-ghost {
+  background: var(--chip);
+  border-color: var(--line);
+  color: var(--head);
+}
+.btn-ghost-dark {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.28);
+  color: #fff;
+}
+.btn-white {
+  background: #fff;
+  color: #1b2a8f;
+  font-weight: 700;
+}
+
+/* Chips */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.chip {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--chip);
+  border: 1px solid var(--line);
+  font-size: 14px;
+  color: var(--chiptext);
+}
+
+/* Tarjetas */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.icon-box {
+  flex: none;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: var(--icon);
+  color: var(--icontext);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lift {
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.lift:hover {
+  transform: translateY(-4px);
+  border-color: rgba(122, 145, 255, 0.55);
+  opacity: 1;
+}
+.grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+}
+
+/* Bloque de contacto (siempre en degradado azul/morado, en ambos temas) */
+.cta-band {
+  border-radius: 28px;
+  padding: clamp(28px, 4vw, 56px);
+  background: linear-gradient(135deg, #1b2a8f 0%, #311b92 100%);
+  color: #fff;
+}
+.cta-band h2 {
+  color: #fff;
+}
+
+/* Sello SEC (oscuro en ambos temas) */
+.sec-card {
+  padding: 40px;
+  border-radius: 24px;
+  background: linear-gradient(160deg, #142139 0%, #0a1220 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 18px;
+  min-height: 320px;
+}
+.sec-card h3 {
+  color: #fff;
+  font-size: 26px;
+}
+.sec-card p {
+  color: #b7c2d6;
+  font-size: 16px;
+  line-height: 1.65;
+}
+.ok-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: rgba(61, 220, 151, 0.16);
+  color: #3ddc97;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    transition: none !important;
+  }
+}

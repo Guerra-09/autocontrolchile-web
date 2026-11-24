@@ -1,0 +1,416 @@
+---
+import '../styles/global.css';
+import Icono from '../components/Icono.astro';
+import { servicios } from '../data/servicios';
+import { contacto, linkWhatsapp, url } from '../data/sitio';
+
+interface Props {
+  titulo: string;
+  descripcion: string;
+  actual?: string; // slug del servicio abierto, para marcarlo en el menú
+}
+const { titulo, descripcion, actual } = Astro.props;
+const enInicio = !actual;
+// Desde una página de servicio, las anclas apuntan a la portada.
+const ancla = (id: string) => (enInicio ? `#${id}` : `${url()}#${id}`);
+---
+<!doctype html>
+<html lang="es" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo}</title>
+    <meta name="description" content={descripcion} />
+    <meta name="theme-color" content="#0a1220" />
+    <link rel="icon" type="image/svg+xml" href={url('favicon.svg')} />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={new URL(url('img/cerco-electrico.jpg'), Astro.site).href} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <script is:inline>
+      // Antes de pintar: tema guardado, o oscuro por defecto.
+      try {
+        var t = localStorage.getItem('tema');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+    <header class="topbar">
+      <div class="wrap topbar-in">
+        <a href={url()} class="marca" aria-label="Autocontrol Chile, inicio">
+          <img class="logo" src={url('img/logo.png')} alt="Autocontrol Chile SpA" width="94" height="44" />
+        </a>
+
+        <nav class="nav" id="nav" aria-label="Principal">
+          <a href={url()}>Inicio</a>
+          <div class="dd">
+            <a href={ancla('servicios')} class="dd-trigger" aria-haspopup="true">
+              Servicios <Icono nombre="chevron" size={14} stroke={2.2} />
+            </a>
+            <div class="dd-menu">
+              <div class="dd-panel">
+                {servicios.map((s) => (
+                  <a class:list={['dd-item', { activo: s.slug === actual }]} href={url(`servicios/${s.slug}/`)} aria-current={s.slug === actual ? 'page' : undefined}>
+                    <span class="dd-icon"><Icono nombre={s.icono} size={20} /></span>
+                    <span class="dd-text">
+                      <span class="dd-title">{s.titulo}</span>
+                      <span class="dd-sub">{s.menu}</span>
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+          <a href={ancla('nosotros')}>Nosotros</a>
+          <a href={ancla('clientes')}>Clientes</a>
+          <a href="#contacto">Contacto</a>
+        </nav>
+
+        <div class="acciones">
+          <button type="button" class="redondo" id="tema" aria-label="Cambiar a modo claro" title="Cambiar a modo claro">
+            <span class="si-oscuro"><Icono nombre="sol" size={18} stroke={2} /></span>
+            <span class="si-claro"><Icono nombre="luna" size={18} stroke={2} /></span>
+          </button>
+          <a class="pill" href={linkWhatsapp()}>
+            <Icono nombre="telefono" size={18} stroke={2} />
+            <span>{contacto.telefono}</span>
+          </a>
+          <button type="button" class="redondo menu-btn" id="menu" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav">
+            <span class="si-cerrado"><Icono nombre="menu" size={20} stroke={2} /></span>
+            <span class="si-abierto"><Icono nombre="cerrar" size={20} stroke={2} /></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="contenido">
+      <slot />
+    </main>
+
+    <footer class="pie">
+      <div class="wrap pie-in">
+        <img class="logo" src={url('img/logo.png')} alt="Autocontrol Chile SpA" width="77" height="36" loading="lazy" />
+        <span>© {new Date().getFullYear()} Autocontrol Chile SpA · Instalaciones de seguridad en Arica</span>
+      </div>
+    </footer>
+
+    <a class="fab" href={linkWhatsapp()} aria-label="Escríbenos por WhatsApp" title="Escríbenos por WhatsApp" target="_blank" rel="noopener">
+      <Icono nombre="whatsapp" size={30} />
+    </a>
+
+    <script>
+      const raiz = document.documentElement;
+      const btnTema = document.getElementById('tema')!;
+      const pintarBoton = () => {
+        const etiqueta = raiz.dataset.theme === 'light' ? 'Cambiar a modo oscuro' : 'Cambiar a modo claro';
+        btnTema.setAttribute('aria-label', etiqueta);
+        btnTema.title = etiqueta;
+      };
+      pintarBoton();
+      btnTema.addEventListener('click', () => {
+        const t = raiz.dataset.theme === 'light' ? 'dark' : 'light';
+        raiz.dataset.theme = t;
+        try { localStorage.setItem('tema', t); } catch {}
+        pintarBoton();
+      });
+
+      // Menú del celular
+      const btnMenu = document.getElementById('menu')!;
+      const nav = document.getElementById('nav')!;
+      const cerrar = () => {
+        document.body.classList.remove('menu-abierto');
+        btnMenu.setAttribute('aria-expanded', 'false');
+      };
+      btnMenu.addEventListener('click', () => {
+        const abierto = document.body.classList.toggle('menu-abierto');
+        btnMenu.setAttribute('aria-expanded', String(abierto));
+      });
+      nav.querySelectorAll('a:not(.dd-trigger)').forEach((a) => a.addEventListener('click', cerrar));
+      addEventListener('keydown', (e) => { if (e.key === 'Escape') cerrar(); });
+    </script>
+
+    <style>
+      .saltar {
+        position: absolute;
+        left: 16px;
+        top: -60px;
+        z-index: 100;
+        padding: 10px 16px;
+        border-radius: 10px;
+        background: var(--accent);
+        color: #fff;
+      }
+      .saltar:focus {
+        top: 12px;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        background: var(--nav);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--line);
+      }
+      .topbar-in {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding-block: 14px;
+      }
+      .marca img {
+        height: 44px;
+        width: auto;
+      }
+      .nav {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        font-size: 15px;
+        font-weight: 500;
+      }
+      .nav a {
+        color: var(--navlink);
+      }
+      .nav a:hover {
+        color: var(--head);
+        opacity: 1;
+      }
+      .dd {
+        position: relative;
+      }
+      .dd-trigger {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        min-height: 44px;
+      }
+      .dd-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: -24px;
+        padding-top: 10px;
+        z-index: 50;
+      }
+      .dd:hover .dd-menu,
+      .dd:focus-within .dd-menu {
+        display: block;
+      }
+      .dd-panel {
+        width: 560px;
+        padding: 10px;
+        border-radius: 18px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 4px;
+      }
+      .dd-item {
+        display: flex;
+        gap: 12px;
+        padding: 12px;
+        border-radius: 12px;
+        transition: background 0.15s ease;
+      }
+      .dd-item:hover,
+      .dd-item.activo {
+        background: var(--surface2);
+      }
+      .dd-icon {
+        flex: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: var(--icon);
+        color: var(--icontext);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .dd-text {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+      .dd-title {
+        color: var(--head);
+        font-weight: 600;
+      }
+      .dd-sub {
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 400;
+      }
+
+      .acciones {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .redondo {
+        width: 44px;
+        height: 44px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: var(--chip);
+        color: var(--head);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+      .si-claro,
+      :global([data-theme='light']) .si-oscuro {
+        display: none;
+      }
+      :global([data-theme='light']) .si-claro {
+        display: flex;
+      }
+      .si-oscuro {
+        display: flex;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 44px;
+        padding: 0 18px;
+        border-radius: 999px;
+        background: var(--accent);
+        color: #fff;
+        font-weight: 600;
+        font-size: 15px;
+        white-space: nowrap;
+      }
+      .menu-btn {
+        display: none;
+      }
+      .si-abierto,
+      :global(body.menu-abierto) .si-cerrado {
+        display: none;
+      }
+      :global(body.menu-abierto) .si-abierto {
+        display: flex;
+      }
+
+      @media (max-width: 1020px) {
+        .menu-btn {
+          display: flex;
+        }
+        .nav {
+          display: none;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          max-height: calc(100vh - 72px);
+          overflow-y: auto;
+          flex-direction: column;
+          align-items: stretch;
+          gap: 0;
+          padding: 8px 16px 20px;
+          background: var(--surface);
+          border-bottom: 1px solid var(--line);
+          box-shadow: 0 24px 40px rgba(0, 0, 0, 0.25);
+        }
+        :global(body.menu-abierto) .nav {
+          display: flex;
+        }
+        .nav > a,
+        .dd-trigger {
+          min-height: 48px;
+          display: flex;
+          align-items: center;
+          border-bottom: 1px solid var(--line);
+          font-size: 16px;
+        }
+        .dd-trigger :global(svg) {
+          display: none;
+        }
+        .dd-menu {
+          display: block;
+          position: static;
+          padding: 8px 0;
+        }
+        .dd-panel {
+          width: auto;
+          grid-template-columns: 1fr;
+          box-shadow: none;
+          border: 0;
+          padding: 0;
+          background: transparent;
+        }
+      }
+      @media (max-width: 560px) {
+        .pill span {
+          display: none;
+        }
+        .pill {
+          width: 44px;
+          padding: 0;
+          justify-content: center;
+        }
+        .marca img {
+          height: 38px;
+        }
+      }
+
+      .pie {
+        border-top: 1px solid var(--line);
+      }
+      .pie-in {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding-block: 32px 104px;
+        font-size: 14px;
+        color: var(--muted);
+      }
+      .pie img {
+        height: 36px;
+        width: auto;
+        opacity: 0.85;
+      }
+
+      .fab {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        z-index: 60;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: var(--wa);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        transition: transform 0.2s ease;
+      }
+      .fab:hover {
+        transform: scale(1.06);
+        opacity: 1;
+      }
+      @media (max-width: 560px) {
+        .fab {
+          right: 16px;
+          bottom: 16px;
+        }
+      }
+    </style>
+  </body>
+</html>
